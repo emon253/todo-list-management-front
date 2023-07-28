@@ -1,0 +1,14 @@
+<nav>
+  <ul>
+    <li><a href="#home">TODO</a></li>
+
+    <li style="float: right">
+      <a class="active" href="javascript:void()">{{
+        isLoggedIn ? username : "Login"
+      }}</a>
+    </li>
+    <li style="float: right">
+      <a (click)="logout()" *ngIf="isLoggedIn">Logout</a>
+    </li>
+  </ul>
+</nav>

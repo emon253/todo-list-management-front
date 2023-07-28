@@ -1,0 +1,68 @@
+<div class="todo-app">
+  <header>
+    <h1>Todo List</h1>
+  </header>
+  <!-- add todos form starts -->
+  <form *ngIf="isAdmin" [formGroup]="todoFormGroup" (ngSubmit)="onSave()">
+    <div class="add-task">
+      <input
+        formControlName="title"
+        type="text"
+        placeholder="Enter task title"
+      />
+      <textarea
+        formControlName="description"
+        placeholder="Enter task description"
+      ></textarea>
+      <button [disabled]="!todoFormGroup.valid" class="add-btn">
+        Add Task
+      </button>
+    </div>
+  </form>
+  <!-- add todos form ends -->
+
+  <div class="task-list">
+    <ul>
+      <!-- running a loop to show all todos in the list -->
+      <ng-container *ngFor="let todo of todoList">
+        <li class="task-item">
+          <input
+            (change)="updateTodoStatus(todo)"
+            [checked]="todo.status == 'CLOSE'"
+            type="checkbox"
+            name="check"
+            id="check"
+          />
+          <div class="task-details">
+            <h3>{{ todo.title }}</h3>
+            <p>{{ todo.description }}</p>
+          </div>
+
+          <!-- image input field will on show before uploading image -->
+          <input
+            [hidden]="todo.image != null"
+            *ngIf="isAdmin"
+            id="image"
+            type="file"
+            (change)="onFileChange($event, todo.todoID)"
+          />
+          <img
+            class="img"
+            [src]="'data:image/jpeg;base64,' + todo.image"
+            alt="Upload"
+          />
+          <!-- open close status  -->
+          <span class="status"> {{ todo.status }}</span> &nbsp;
+          <!-- delete button -->
+          <button
+            *ngIf="isAdmin"
+            (click)="deleteTodo(todo.todoID)"
+            class="delete-btn"
+          >
+            Delete
+          </button>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>
